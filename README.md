@@ -1,10 +1,10 @@
 # 🧬 Breast Cancer Risk Analysis & Monitoring
 > **End-to-End Data Science & Clinical Intelligence Dashboard**
 
-![Python](https://img.shields.io)
-![Grafana](https://img.shields.io)
-![scikit-learn](https://img.shields.io)
-![PostgreSQL](https://img.shields.io)
+[![Python](https://img.shields.io)](https://www.python.org)
+[![Grafana](https://img.shields.io)](https://grafana.com)
+[![Scikit-Learn](https://img.shields.io)](https://scikit-learn.org)
+[![License: MIT](https://img.shields.io)](https://opensource.org)
 
 Este projeto une **Machine Learning** e **Business Intelligence** para transformar dados diagnósticos de cancro da mama em decisões clínicas acionáveis. O diferencial reside na capacidade de simular cenários de risco em tempo real, equilibrando a precisão do modelo com a segurança do paciente.
 
