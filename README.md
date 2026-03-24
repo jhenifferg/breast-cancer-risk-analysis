@@ -1,80 +1,78 @@
 # 🧬 Breast Cancer Risk Analysis & Monitoring
+> **End-to-End Data Science & Clinical Intelligence Dashboard**
 
-Este projeto combina **Data Science** e **Business Intelligence** para analisar dados diagnósticos de câncer de mama. O objetivo é desenvolver modelos preditivos (Regressão Logística) e monitorar o comportamento desses modelos através de um dashboard interativo no **Grafana**.
+![Python](https://img.shields.io)
+![Grafana](https://img.shields.io)
+![scikit-learn](https://img.shields.io)
+![PostgreSQL](https://img.shields.io)
 
-🎯 **Meta:** Melhorar a detecção precoce compreendendo os trade-offs entre falsos positivos e falsos negativos.
+Este projeto une **Machine Learning** e **Business Intelligence** para transformar dados diagnósticos de cancro da mama em decisões clínicas acionáveis. O diferencial reside na capacidade de simular cenários de risco em tempo real, equilibrando a precisão do modelo com a segurança do paciente.
 
------
+🎯 **Objetivo:** Otimizar a deteção precoce através da análise de *trade-offs* entre Falsos Positivos e Falsos Negativos, utilizando um Threshold Clínico ajustável.
 
-## 🔍 Visão Geral do Projeto
+---
 
-O projeto utiliza o famoso dataset de diagnóstico de câncer de mama para classificar tumores como **Benignos (B)** ou **Malignos (M)**. A análise evolui de uma abordagem baseada em regras simples (thresholds manuais) para um modelo de aprendizado de máquina mais robusto.
+## 📊 O Dashboard de Monitorização
+O coração deste projeto é o dashboard interativo no **Grafana**, que consome dados processados em **PostgreSQL**.
 
------
+> <img width="1440" height="413" alt="Captura de Tela 2026-03-24 às 00 26 06" src="https://github.com/user-attachments/assets/9fbb0700-0f05-470d-bb5f-2b2cf387304c" />
+> <img width="1440" height="500" alt="Captura de Tela 2026-03-24 às 00 26 26" src="https://github.com/user-attachments/assets/2ca77880-1d0c-4e93-9802-fb62c8bf0056" />
 
-## 🛠️ Metodologia de Análise
 
-### 1\. Limpeza e Preparação
 
-  * Remoção de colunas irrelevantes (`id`, `Unnamed: 32`).
-  * Mapeamento da variável alvo: `Benigno: 0`, `Maligno: 1`.
-  * Verificação de valores nulos e duplicatas para garantir a integridade dos dados.
+*Legenda: Dashboard clínico mostrando Sensibilidade, Precisão e Matriz de Confusão Dinâmica.*
 
-### 2\. Análise Exploratória (EDA)
+### 🎛️ Diferencial: Filtro de Threshold Interativo
+Ao contrário de modelos estáticos, este dashboard permite que o utilizador escolha o limite de corte (**0.1, 0.2, 0.3, 0.5, 0.8**):
+*   **Threshold 0.2 (Conservador):** Prioriza a **Sensibilidade (92%)**, garantindo que quase nenhum caso maligno é ignorado, à custa de mais alarmes falsos.
+*   **Threshold 0.8 (Rigoroso):** Prioriza a **Precisão**, ideal para confirmações finais antes de procedimentos invasivos.
 
-  * **Distribuição:** Identificação do desbalanceamento de classes.
-  * **Sobreposição:** Utilização de Boxplots para visualizar como características (como `radius_mean`) se sobrepõem entre os diagnósticos, demonstrando por que regras simples falham.
+---
 
-### 3\. Evolução do Modelo
+## 🛠️ Pipeline Técnica
 
-  * **Abordagem por Regra Simples:** Classificação baseada apenas no raio médio.
-  * **Score de Risco Pesado:** Combinação de variáveis (área, concavidade e pontos côncavos).
-  * **Regressão Logística:** Implementação do modelo final para prever a probabilidade de malignidade.
+### 1. Data Science (Python & Scikit-Learn)
+*   **EDA Profunda:** Identificação de sobreposição em características como `radius_mean` através de Histogramas e Boxplots.
+*   **Modelagem:** Implementação de **Regressão Logística** para obter probabilidades contínuas (0 a 1) em vez de classes fixas.
+*   **Exportação:** Sincronização dos resultados (`probability`, `prediction`, `diagnosis`) com uma base de dados SQL para consumo no Grafana.
 
------
+### 2. Engenharia de Dados & BI (SQL & Grafana)
+*   **Consultas Dinâmicas:** SQL avançado com `CASE WHEN` e `FILTER` para gerar métricas de performance em tempo real.
+*   **Métricas Críticas:**
+    *   **Recall (Sensitivity):** A métrica de ouro para a segurança do paciente.
+    *   **Precision:** Mede a fiabilidade dos alertas de "Risco Alto".
+    *   **Confusion Matrix:** Tabela colorida para identificação imediata de erros críticos.
 
-## 📈 Modelagem e Resultados
+---
 
-O modelo de **Regressão Logística** permitiu um ajuste fino na sensibilidade do diagnóstico:
+## 📈 Estrutura dos Painéis
 
-  * **Acurácia Geral:** \~90%
-  * **Recall (Sensibilidade):** Ao ajustar o threshold para **0.2**, conseguimos reduzir drasticamente os Falsos Negativos (casos malignos ignorados), o que é crítico em contextos médicos.
-  * **Matriz de Confusão:** Monitoramento contínuo de erros do tipo I e tipo II.
 
------
+| Painel | Insight Clínico |
+| :--- | :--- |
+| **Model Sensitivity (Recall)** | Percentagem de doentes reais capturados pelo modelo. |
+| **Model Confidence** | Histograma que mostra a "zona de incerteza" do modelo entre 0.3 e 0.7. |
+| **Confusion Matrix** | Breakdown de erros (Falsos Negativos destacados em Vermelho). |
+| **Clinical Workload** | Bar Gauge que indica o volume de pacientes que exigem atenção imediata. |
 
-## 📊 Monitoramento com Grafana
+---
 
-Para tornar a análise acionável, estruturei um dashboard no Grafana conectado ao banco de dados (PostgreSQL). O objetivo é permitir que profissionais de saúde simulem cenários.
+## 🚀 Como Reproduzir este Projeto
 
-### 🧩 Estrutura do Dashboard
+1. **Notebook:** Execute o ficheiro `analysis.ipynb` para treinar o modelo e gerar o CSV/SQL.
+2. **Database:** Importe os dados para o seu PostgreSQL/SQLite.
+3. **Grafana:**
+   * Importe o ficheiro JSON localizado em `/grafana/dashboard.json`.
+   * Configure a variável `${threshold}` como tipo `Custom` com os valores `0.1, 0.2, 0.3, 0.5, 0.8`.
 
-| Painel | Tipo | Descrição/Insight |
-| :--- | :--- | :--- |
-| **Distribuição de Diagnóstico** | Bar Chart | Visão geral da base de dados (B vs M). |
-| **Classificação do Modelo** | Gauge/Stat | Total de pacientes em *High Risk* vs *Low Risk*. |
-| **Radius vs Diagnosis** | Histogram | Visualiza a sobreposição de dados que causava falhas no modelo inicial. |
-| **Distribuição de Probabilidade** | Histogram | Mostra como o modelo está separando as classes (confiança). |
-| **Confusion Matrix** | Heatmap/Table | Exibição em tempo real dos erros (Falsos Positivos e Negativos). |
-| **Impacto do Threshold** | Multi-stat | Painel dinâmico que mostra como a classificação muda conforme o filtro. |
+---
 
-### 🎛️ Filtro Dinâmico: Threshold
+## 💻 Tecnologias
+*   **Linguagem:** Python 3.x
+*   **IA:** Scikit-Learn (Logistic Regression)
+*   **BI:** Grafana
+*   **Base de Dados:** PostgreSQL / SQLite
+*   **Visualização:** Seaborn, Matplotlib
 
-O dashboard conta com uma variável de painel onde o usuário pode selecionar o limite de corte (**0.3, 0.5, 0.7**):
-
-  * Ao alterar o threshold, os painéis de **High Risk** e a **Matriz de Confusão** são atualizados automaticamente para mostrar o impacto clínico da decisão.
-
------
-
-## 💻 Tecnologias Utilizadas
-
-  * **Python 3.x:** Linguagem principal.
-  * **Pandas & Numpy:** Manipulação de dados.
-  * **Scikit-Learn:** Inteligência Artificial (Logistic Regression, Metrics).
-  * **Matplotlib & Seaborn:** Visualização de dados estatísticos.
-  * **Grafana:** Dashboard de monitoramento e visualização de dados.
-  * **SQL (SQLite/PostgreSQL):** Armazenamento dos dados processados para o dashboard.
-
------
-
-⭐ **Gostou do projeto?** Sinta-se à vontade para clonar e contribuir\!
+---
+⭐ **Gostou desta abordagem?** Sinta-se à vontade para contribuir ou deixar uma estrela no repositório!
