@@ -1,10 +1,9 @@
 # 🧬 Breast Cancer Risk Analysis & Monitoring
-> **End-to-End Data Science & Clinical Intelligence Dashboard**
 
-[![Python](https://img.shields.io)](https://www.python.org)
-[![Grafana](https://img.shields.io)](https://grafana.com)
-[![Scikit-Learn](https://img.shields.io)](https://scikit-learn.org)
-[![License: MIT](https://img.shields.io)](https://opensource.org)
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Grafana](https://img.shields.io/badge/grafana-%23F46800.svg?style=for-the-badge&logo=grafana&logoColor=white)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-%23F7931E.svg?style=for-the-badge&logo=scikit-learn&logoColor=white)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 
 Este projeto une **Machine Learning** e **Business Intelligence** para transformar dados diagnósticos de cancro da mama em decisões clínicas acionáveis. O diferencial reside na capacidade de simular cenários de risco em tempo real, equilibrando a precisão do modelo com a segurança do paciente.
 
@@ -48,18 +47,24 @@ Ao contrário de modelos estáticos, este dashboard permite que o utilizador esc
 ## 📈 Estrutura dos Painéis
 
 
-| Painel | Insight Clínico |
-| :--- | :--- |
-| **Model Sensitivity (Recall)** | Percentagem de doentes reais capturados pelo modelo. |
-| **Model Confidence** | Histograma que mostra a "zona de incerteza" do modelo entre 0.3 e 0.7. |
-| **Confusion Matrix** | Breakdown de erros (Falsos Negativos destacados em Vermelho). |
-| **Clinical Workload** | Bar Gauge que indica o volume de pacientes que exigem atenção imediata. |
+| Painel | Tipo | Insight Clínico |
+| :--- | :--- | :--- |
+| **Model Sensitivity** | Gauge | Quantos % dos doentes reais o modelo detetou. |
+| **Prediction Precision** | Gauge | Fiabilidade do alerta: dos casos marcados como risco, quantos são cancro. |
+| **Model Confidence** | Histogram | Distribuição de probabilidades; identifica a "zona de incerteza" do modelo. |
+| **Confusion Matrix** | Table | Matriz dinâmica que destaca erros críticos (Falsos Negativos) em Vermelho. |
+| **Clinical Workload** | Bar Gauge | Mostra quantos pacientes entram na lista de prioridade conforme o Threshold. |
+| **Radius vs Diagnosis** | Histogram | Analisa a distribuição física (raio do tumor) correlacionada ao diagnóstico. |
+| **General Diagnosis** | Bar Chart | Visão geral da base de dados, comparando volume de Benignos vs Malignos. |
+
+### 🎛️ Variável Global: Clinical Threshold
+O dashboard utiliza uma variável dinâmica `${threshold}` que permite ao utilizador simular o impacto de diferentes níveis de probabilidade (**0.1 a 0.8**) em todos os painéis acima em tempo real.
 
 ---
 
 ## 🚀 Como Reproduzir este Projeto
 
-1. **Notebook:** Execute o ficheiro `analysis.ipynb` para treinar o modelo e gerar o CSV/SQL.
+1. **Notebook:** Execute o ficheiro `data_analysis.ipynb` para treinar o modelo e gerar o CSV/SQL.
 2. **Database:** Importe os dados para o seu PostgreSQL/SQLite.
 3. **Grafana:**
    * Importe o ficheiro JSON localizado em `/grafana/dashboard.json`.
